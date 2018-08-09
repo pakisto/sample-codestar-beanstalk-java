@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class HelloWorldController {
 
+    @Autowired
+    private Environment env;
+
     private static final String MESSAGE_FORMAT = "Hello %s!";
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
@@ -27,6 +30,9 @@ public class HelloWorldController {
     }
 
     private String createResponse(String name) {
-        return new JSONObject().put("Output", String.format(MESSAGE_FORMAT, name)).toString();
+        return new JSONObject()
+            .put("Output", String.format(MESSAGE_FORMAT, name))
+            .put("Environment", env.getProperty("JAVA_ENV"))
+            .toString();
     }
 }

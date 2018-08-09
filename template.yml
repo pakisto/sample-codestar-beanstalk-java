@@ -33,6 +33,13 @@ Parameters:
   ApplicationName:
     Type: String
     Description: Beanstalk application name
+  Stage:
+    Type: String
+    AllowedValues:
+      - Stage
+      - Prod
+    Default: Stage
+    Description: Stage that can be added to resource names
 
 Resources:
   EBApplication:
@@ -87,6 +94,9 @@ Resources:
       - Namespace: aws:ec2:vpc
         OptionName: VPCId
         Value: !Ref 'VpcId'
+      - Namespace:   aws:elasticbeanstalk:application:environment
+        OptionName: JAVA_ENV
+        Value: !Ref 'Stage'
       - !If
         - UseSubnet
         - Namespace: 'aws:ec2:vpc'
